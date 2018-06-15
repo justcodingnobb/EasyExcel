@@ -1,0 +1,25 @@
+{
+    "name": "rekkles/easyexcel",
+    "description": "Find A Simple Way To Operate Excel.",
+    "license": "MIT",
+    "keywords": [
+        "framework",
+        "thinkphp",
+        "ORM"
+    ],
+    "authors": [
+        {
+            "name": "Rekkles",
+            "email": "yinxiangnet@qq.com"
+        }
+    ],
+    "require": {
+        "php":">=5.3.9",
+        "phpoffice/phpexcel": "^1.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "EasyExcel\\": "src/"
+        }
+    }
+}
