@@ -13,6 +13,7 @@
             "email": "yinxiangnet@qq.com"
         }
     ],
+    "homepage": "https://github.com/justcodingnobb/EasyExcel",
     "require": {
         "php":">=5.3.9",
         "phpoffice/phpexcel": "^1.8"

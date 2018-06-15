@@ -28,7 +28,12 @@ var_dump($data->loadByChunk($chunk)->getData());
    
 ## Feature
    1.导出Excel
+   
    2.批量导入、导出
+   
+   
+  [个人博客](https://rekkles.xyz/)  
+  [个人gitbook](https://gitbook.rekkles.xyz/)  
     
        
 
