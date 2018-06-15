@@ -3,9 +3,8 @@
     "description": "Find A Simple Way To Operate Excel.",
     "license": "MIT",
     "keywords": [
-        "framework",
-        "thinkphp",
-        "ORM"
+        "Excel",
+        "PHPExcel"
     ],
     "authors": [
         {
