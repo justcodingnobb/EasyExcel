@@ -22,28 +22,32 @@ var_dump($data->loadByChunk($chunk)->getData());
 
 //写入Excel 生成文件到指定目录
 $f = new ArrayToExcel(array(
-            'fileName' => 'test.csv',           //导出的excel的文件的名称
-            'sheetTitle' => '11',         //每个工作薄的标题
-            'creator' => 'rekkles',            //创建者
-            'writeType' => 'CSV',           //输出类型 Excel5 Excel7 CSV
-            'path' => ROOT_PATH.'runtime/',           //输出路径 确保有写入权限
+     'fileName' => 'test.csv',           //导出的excel的文件的名称
+     'sheetTitle' => '11',              //每个工作薄的标题
+     'creator' => 'rekkles',            //创建者
+     'writeType' => 'CSV',              //输出类型 Excel5 Excel7 CSV
+     'path' => ROOT_PATH.'runtime/',    //输出路径 确保有写入权限
 ));
 $f->setFirstRow(array('',1111,2222,3333))
-  ->fillData(array(['','aaa','bbb','ccc'],['','ddd','eee','fff']));
+  ->fillData(array(
+  ['','aaa','bbb','ccc'],
+  ['','ddd','eee','fff']
+  ));
 ```
 
 ## Documentation
    目前是第一版，功能还在逐渐完善中。
    
-   简单的一些功能在ExcelToArray中已经封装好函数，写好了中文文档。
-   
+   代码不是很复杂，针对PHPExcel封装了一部，
+   遇到问题可以自行debug，有bug提交PR就更好了！   
 ## Feature
    1.批量导入、导出
+   2.支持更多的文件格式
    
 ## Donate  
 
-   <img src="https://rekkles.xyz/wx.png" width="200" alt="EasyWeChat Logo"/>
-   <img src="https://rekkles.xyz/alipay.jpeg" height="264" alt="EasyWeChat Logo"/>
+   <img src="https://rekkles.xyz/wx.png" width="200" alt="wechat" style="float:left"/>
+   <img src="https://rekkles.xyz/alipay.jpeg" height="264" alt="alipay" style="padding-left:20px"/>
    
   [个人博客](https://rekkles.xyz/)  
   [个人gitbook](https://gitbook.rekkles.xyz/)  
