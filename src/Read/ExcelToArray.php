@@ -18,15 +18,18 @@ class ExcelToArray
         'csv' => 'CSV',
         'xsl' => 'SYLK',
     );
+    private $firstRow;
+    private $config;
 
     /**
      * ExcelToArray constructor.
      * @param $path
      * @throws \Exception
      */
-    public function __construct($path)
+    public function __construct($path, $config = array())
     {
         $this->path = $path;
+        $this->config = $config;
         $this->fileName = $this->getFileName();
         $this->ext = $this->getExt();
         if (isset($this->fileType[strtolower($this->ext)])) {
@@ -42,7 +45,8 @@ class ExcelToArray
      * 获取路径中的文件名
      * @return string
      */
-    private function getFileName(){
+    private function getFileName()
+    {
         return basename($this->path);
     }
 
@@ -53,8 +57,7 @@ class ExcelToArray
      */
     public function getExt()
     {
-        $extName = explode('.', $this->fileName);
-        return end($extName);
+        return pathinfo($this->fileName, PATHINFO_EXTENSION);
     }
 
     /**
@@ -73,7 +76,8 @@ class ExcelToArray
      * 加载文件到内存
      * @return $this
      */
-    public function load(){
+    public function load()
+    {
         $this->loadObj = $this->readObj->load($this->path);
         return $this;
     }
@@ -105,8 +109,26 @@ class ExcelToArray
      * 获取所有Sheets
      * @return mixed
      */
-    public function getAllSheet(){
+    public function getAllSheet()
+    {
         return $this->loadObj->getAllSheets();
+    }
+
+    /**
+     * 获取第一列的字段
+     * @return mixed
+     * @throws \PHPExcel_Exception
+     */
+    public function getFirstRow()
+    {
+        $loadedWorkSheet = $this->loadObj->getActiveSheet(); //获取当前激活Sheet
+        $maxRow = $loadedWorkSheet->getHighestRow(); //获取最大行 int
+        $maxColumn = $loadedWorkSheet->getHighestColumn(); //获取最大列 (A-Z)
+        $highestColumnIndex = \PHPExcel_Cell::columnIndexFromString($maxColumn); //根据列名获取index
+        for ($col = 0; $col < $highestColumnIndex; $col++) {
+            $this->firstRow[] = (string)$loadedWorkSheet->getCellByColumnAndRow($col, 1)->getValue();
+        }
+        return $this->firstRow;
     }
 
     /**
@@ -121,10 +143,18 @@ class ExcelToArray
         $highestColumnIndex = \PHPExcel_Cell::columnIndexFromString($maxColumn); //根据列名获取index
 
         //从第二行获取行数据 （第一行是字段）
-        for ($row=2; $row <= $maxRow; $row++) {
+        for ($row = 2; $row <= $maxRow; $row++) {
             //从第一列获取列的数据
             for ($col = 0; $col < $highestColumnIndex; $col++) {
-                $this->data[$row - 2][] = (string)$loadedWorkSheet->getCellByColumnAndRow($col, $row)->getValue();
+                if (isset($this->config['firstRowAsIndex']) && $this->config['firstRowAsIndex']) {
+                    if (empty($this->firstRow)) {
+                        $this->getFirstRow();
+                    }
+                    //第一列的字段作key
+                    $this->data[$row - 2][$this->firstRow[$col]] = (string)$loadedWorkSheet->getCellByColumnAndRow($col, $row)->getValue();
+                } else {
+                    $this->data[$row - 2][] = (string)$loadedWorkSheet->getCellByColumnAndRow($col, $row)->getValue();
+                }
             }
         }
         $this->loadObj->disconnectWorksheets();
