@@ -30,7 +30,7 @@ class ExcelToArray
         $this->fileName = $this->getFileName();
         $this->ext = $this->getExt();
         if (isset($this->fileType[strtolower($this->ext)])) {
-            $this->readObj = \PHPExcel_IOFactory::createReader(strtolower($this->ext));
+            $this->readObj = \PHPExcel_IOFactory::createReader($this->fileType[strtolower($this->ext)]);
             $this->readObj->setReadDataOnly(true); //只读取数据
         } else {
             throw new \Exception('File Extension Is Not Illegal');

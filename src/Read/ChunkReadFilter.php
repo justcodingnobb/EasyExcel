@@ -11,8 +11,8 @@ class ChunkReadFilter implements \PHPExcel_Reader_IReadFilter
 
     /**
      * ChunkReadFilter.
-     * @param $startRow int 默认是2 第一行常规是字段
      * @param $chunkSize int 每次获取多少数据
+     * @param $startRow int 默认是2 第一行常规是字段
      */
     public function setRows($chunkSize, $startRow = 2){
         $this->_startRow = $startRow;
