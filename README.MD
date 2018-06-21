@@ -10,7 +10,8 @@ use EasyExcel\Read\ExcelToArray;
 use EasyExcel\Read\ChunkReadFilter;
 
 //简单获取Excel的数据为Array
-$getData = new ExcelToArray('/Users/rekkles/code/data.csv');
+$config = ['firstRowAsIndex' => true];
+$getData = new ExcelToArray('/Users/rekkles/code/data.csv',$config);
 $getData->load();
 var_dump($getData->getData());
 
@@ -21,14 +22,14 @@ $data = new ExcelToArray('/Users/rekkles/code/data.csv');
 var_dump($data->loadByChunk($chunk)->getData());
 
 //写入Excel 生成文件到指定目录
-$f = new ArrayToExcel(array(
+$outObj = new ArrayToExcel(array(
      'fileName' => 'test.csv',           //导出的excel的文件的名称
      'sheetTitle' => '11',              //每个工作薄的标题
      'creator' => 'rekkles',            //创建者
      'writeType' => 'CSV',              //输出类型 Excel5 Excel7 CSV
-     'path' => ROOT_PATH.'runtime/',    //输出路径 确保有写入权限
+     'path' => ROOT_PATH.'file/',    //输出路径 确保有写入权限
 ));
-$f->setFirstRow(array('',1111,2222,3333))
+$outObj->setFirstRow(array('',1111,2222,3333))
   ->fillData(array(
   ['','aaa','bbb','ccc'],
   ['','ddd','eee','fff']
